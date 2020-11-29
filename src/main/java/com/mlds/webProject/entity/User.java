@@ -1,6 +1,8 @@
 package com.mlds.webProject.entity;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -26,7 +28,8 @@ public class User {
 
 
 
-    @OneToMany(mappedBy="owner", cascade=CascadeType.ALL ,fetch = FetchType.EAGER)
+    @OneToMany(mappedBy="owner", cascade={CascadeType.PERSIST,CascadeType.REMOVE} ,fetch = FetchType.EAGER)
+    @JsonIgnore
     private List<Event> events =  new ArrayList<Event>();
 
 
@@ -106,5 +109,25 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        User other = (User) o;
+        if (!name.equals(other.getName())) return false;
+
+        if (id != other.getId()) return false;
+        return true;
+    }
+    @Override
+    public int hashCode() {
+        int result = name.hashCode();
+        result = 31 * result + type.hashCode();
+        result = 31 * result + password.hashCode();
+
+        return result;
     }
 }

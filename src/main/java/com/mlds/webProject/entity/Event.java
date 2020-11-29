@@ -91,4 +91,25 @@ public class Event {
         this.owner = owner;
     }
 
+
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Event other = (Event) o;
+        if (!description.equals(other.getDescription())) return false;
+
+        if (id != other.getId()) return false;
+        return true;
+    }
+    @Override
+    public int hashCode() {
+        int result = description.hashCode();
+        result = 31 * result + title.hashCode();
+
+
+        return result;
+    }
+
 }
