@@ -64,7 +64,7 @@ public class Event {
     }
 */
 
-    @OneToMany(cascade=CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(cascade=CascadeType.ALL)
     public List<Participation> getParticipents() {
         return participents;
     }
@@ -73,7 +73,7 @@ public class Event {
         this.participents = participents;
     }
 
-    @OneToMany(cascade=CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(cascade=CascadeType.ALL)
     public List<Interest> getIntrested() {
         return intrested;
     }

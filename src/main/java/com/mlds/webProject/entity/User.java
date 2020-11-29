@@ -26,8 +26,9 @@ public class User {
 
 
 
-    @OneToMany
+    @OneToMany(mappedBy="owner", cascade=CascadeType.ALL ,fetch = FetchType.EAGER)
     private List<Event> events =  new ArrayList<Event>();
+
 
 
     @OneToMany
