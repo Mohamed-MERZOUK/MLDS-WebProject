@@ -64,7 +64,7 @@ public class Event {
     }
 */
 
-    @OneToMany
+    @OneToMany(cascade=CascadeType.ALL, fetch = FetchType.EAGER)
     public List<Participation> getParticipents() {
         return participents;
     }
@@ -73,7 +73,7 @@ public class Event {
         this.participents = participents;
     }
 
-    @OneToMany
+    @OneToMany(cascade=CascadeType.ALL, fetch = FetchType.EAGER)
     public List<Interest> getIntrested() {
         return intrested;
     }
@@ -87,7 +87,7 @@ public class Event {
         return owner;
     }
 
-    public void setOwner(User creater) {
+    public void setOwner(User owner) {
         this.owner = owner;
     }
 
