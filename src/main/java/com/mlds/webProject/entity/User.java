@@ -2,6 +2,8 @@ package com.mlds.webProject.entity;
 
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 public class User {
@@ -12,14 +14,60 @@ public class User {
     private long id;
 
 
-    @Column
+
     private String name;
 
-    @Column
+
     private String password;
 
 
 
+    private String type;
+
+
+
+    @OneToMany
+    private List<Event> events =  new ArrayList<Event>();
+
+
+    @OneToMany
+    private List<Interest> intrests =  new ArrayList<Interest>();
+
+
+    @OneToMany
+    private List<Participation> participations =  new ArrayList<Participation>();
+
+
+
+
+    public User(){
+
+
+    }
+
+    public List<Interest> getIntrests() {
+        return intrests;
+    }
+
+    public void setIntrests(List<Interest> intrests) {
+        this.intrests = intrests;
+    }
+
+    public List<Participation> getParticipations() {
+        return participations;
+    }
+
+    public void setParticipations(List<Participation> participations) {
+        this.participations = participations;
+    }
+
+    public List<Event> getEvents() {
+        return events;
+    }
+
+    public void setEvents(List<Event> events) {
+        this.events = events;
+    }
 
     public String getType() {
         return type;
@@ -29,8 +77,8 @@ public class User {
         this.type = type;
     }
 
-    @Column
-    private String type;
+
+
 
 
 
