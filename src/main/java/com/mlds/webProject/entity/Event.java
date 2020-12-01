@@ -6,7 +6,9 @@ import java.util.Date;
 
 import javax.persistence.*;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
 public class Event {
@@ -64,7 +66,8 @@ public class Event {
     }
 */
 
-    @OneToMany(cascade=CascadeType.ALL)
+    @OneToMany(mappedBy="event",cascade=CascadeType.ALL)
+    @JsonManagedReference
     public List<Participation> getParticipents() {
         return participents;
     }
@@ -73,7 +76,8 @@ public class Event {
         this.participents = participents;
     }
 
-    @OneToMany(cascade=CascadeType.ALL)
+    @OneToMany(mappedBy="event",cascade=CascadeType.ALL)
+    @JsonManagedReference
     public List<Interest> getIntrested() {
         return intrested;
     }

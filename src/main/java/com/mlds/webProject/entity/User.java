@@ -2,6 +2,8 @@ package com.mlds.webProject.entity;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -20,17 +22,19 @@ public class User {
 
 
 
-    @OneToMany(mappedBy="owner", cascade={CascadeType.PERSIST,CascadeType.REMOVE} ,fetch = FetchType.EAGER)
+    @OneToMany(mappedBy="owner", cascade=CascadeType.ALL ,fetch = FetchType.EAGER)
     @JsonIgnore
     private List<Event> events =  new ArrayList<Event>();
 
 
 
-    @OneToMany
+    @OneToMany(mappedBy="interested",cascade=CascadeType.ALL)
+    @JsonManagedReference
     private List<Interest> intrests =  new ArrayList<Interest>();
 
 
-    @OneToMany
+    @OneToMany(mappedBy="participent",cascade=CascadeType.ALL)
+    @JsonManagedReference
     private List<Participation> participations =  new ArrayList<Participation>();
 
 

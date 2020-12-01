@@ -1,5 +1,7 @@
 package com.mlds.webProject.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import java.util.Date;
 import javax.persistence.*;
 
@@ -23,6 +25,7 @@ public class Participation {
     }
 
     @ManyToOne
+    @JsonBackReference
     public User getParticipent() {
         return participent;
     }
@@ -32,6 +35,7 @@ public class Participation {
     }
 
     @ManyToOne
+    @JsonBackReference
     public Event getEvent() {
         return event;
     }

@@ -1,5 +1,8 @@
 package com.mlds.webProject.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -25,6 +28,7 @@ public class Interest {
     }
 
     @ManyToOne
+    @JsonBackReference
     public User getInterested() {
         return interested;
     }
@@ -34,6 +38,7 @@ public class Interest {
     }
 
     @ManyToOne
+    @JsonBackReference
     public Event getEvent() {
         return event;
     }

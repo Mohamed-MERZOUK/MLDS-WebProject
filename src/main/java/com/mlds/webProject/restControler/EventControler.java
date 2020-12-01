@@ -23,13 +23,13 @@ public class EventControler {
     }
 
     @GetMapping("/events")
-    public Iterable<Event> getUsers(){
+    public Iterable<Event> getEvents(){
         return eventRepository.findAll();
     }
 
     @PostMapping("/events")
     @Transactional(propagation = Propagation.REQUIRES_NEW, rollbackFor = Exception.class)
-    public void addUser(@RequestBody Event event) throws Exception {
+    public void addEvent(@RequestBody Event event) throws Exception {
         eventRepository.save(event);
     }
 

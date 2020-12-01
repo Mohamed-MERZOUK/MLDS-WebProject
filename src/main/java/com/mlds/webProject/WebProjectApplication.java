@@ -3,10 +3,14 @@ package com.mlds.webProject;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 import com.mlds.webProject.entity.Event;
+import com.mlds.webProject.entity.Interest;
+import com.mlds.webProject.entity.Participation;
 import com.mlds.webProject.entity.User;
 import com.mlds.webProject.repository.EventRepository;
+import com.mlds.webProject.repository.InterestRepository;
 import com.mlds.webProject.repository.UserRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -35,34 +39,54 @@ public class WebProjectApplication {
 	}
 
 	@Bean
-	public CommandLineRunner demo(UserRepository ur) {
+	public CommandLineRunner demo(UserRepository ur, InterestRepository ir) {
 		return (args) -> {
 			User u = new User();
-			u.setName("I'm the owner");
-			u.setType("user");
+			u.setName("I'm the owner 2");
+			u.setType("admin");
 
 
 			Event e = new Event();
 
 //			e.setOwner(u);
 
-			e.setTitle("hello Bank");
+			e.setTitle("hello Bank 2");
 			e.setDate(new Date());
 
 			u.getEvents().add(e);
 			e.setOwner(u);
 
 
+
+			Optional<User> u1 = ur.findById((long) 1);
+
+			Participation p = new Participation();
+			p.setParticipent(u1.get());
+			p.setEvent(e);
+//			u.getParticipations().add(p);
+//			e.getParticipents().add(p);
+
 			ur.save(u);
 
 
-			Iterable<User> users = ur.findAll();
-			User utemp = users.iterator().next();
-			System.out.println(utemp.getName());
 
-			List<Event> events = utemp.getEvents();
+			Interest i = new Interest();
+			i.setInterested(u1.get());
+			i.setEvent(e);
+			ir.save(i);
+//			u.getIntrests().add(i);
+//			e.getIntrested().add(i);
 
-			System.out.println(events.size());
+
+
+
+//			Iterable<User> users = ur.findAll();
+//			User utemp = users.iterator().next();
+//			System.out.println(utemp.getName());
+
+//			List<Interest> events = utemp.getIntrests();
+
+//			System.out.println(events.size());
 		};
 	}
 }
