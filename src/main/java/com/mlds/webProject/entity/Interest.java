@@ -28,7 +28,6 @@ public class Interest {
     }
 
     @ManyToOne
-    @JsonBackReference
     public User getInterested() {
         return interested;
     }
@@ -38,7 +37,6 @@ public class Interest {
     }
 
     @ManyToOne
-    @JsonBackReference
     public Event getEvent() {
         return event;
     }

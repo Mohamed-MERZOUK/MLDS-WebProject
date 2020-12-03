@@ -56,18 +56,9 @@ public class Event {
         this.date = date;
     }
 
- /*   @OneToMany(mappedBy="", cascade=CascadeType.ALL, fetch = FetchType.EAGER)
-    public List<User> getParticipents() {
-        return participents;
-    }
-
-    public void setParticipents(List<User> participents) {
-        this.participents = participents;
-    }
-*/
 
     @OneToMany(mappedBy="event",cascade=CascadeType.ALL)
-    @JsonManagedReference
+    @JsonIgnore
     public List<Participation> getParticipents() {
         return participents;
     }
@@ -77,7 +68,7 @@ public class Event {
     }
 
     @OneToMany(mappedBy="event",cascade=CascadeType.ALL)
-    @JsonManagedReference
+    @JsonIgnore
     public List<Interest> getIntrested() {
         return intrested;
     }

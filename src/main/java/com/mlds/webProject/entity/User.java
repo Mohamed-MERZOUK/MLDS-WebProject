@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,34 +17,25 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-    private String name;
+    private String username;
     private String password;
     private String type;
-
 
 
     @OneToMany(mappedBy="owner", cascade=CascadeType.ALL ,fetch = FetchType.EAGER)
     @JsonIgnore
     private List<Event> events =  new ArrayList<Event>();
 
-
-
     @OneToMany(mappedBy="interested",cascade=CascadeType.ALL)
-    @JsonManagedReference
+    @JsonIgnore
     private List<Interest> intrests =  new ArrayList<Interest>();
-
-
+    
     @OneToMany(mappedBy="participent",cascade=CascadeType.ALL)
-    @JsonManagedReference
+    @JsonIgnore
     private List<Participation> participations =  new ArrayList<Participation>();
 
 
-
-
-    public User(){
-
-
-    }
+    public User(){ }
 
     public List<Interest> getIntrests() {
         return intrests;
@@ -91,12 +83,12 @@ public class User {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getUsername() {
+        return username;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setUsername(String name) {
+        this.username = name;
     }
 
     public String getPassword() {
@@ -113,14 +105,14 @@ public class User {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         User other = (User) o;
-        if (!name.equals(other.getName())) return false;
+        if (!username.equals(other.getUsername())) return false;
 
         if (id != other.getId()) return false;
         return true;
     }
     @Override
     public int hashCode() {
-        int result = name.hashCode();
+        int result = username.hashCode();
         result = 31 * result + type.hashCode();
         result = 31 * result + password.hashCode();
 
