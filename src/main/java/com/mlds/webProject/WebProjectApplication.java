@@ -24,6 +24,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.orm.jpa.JpaTransactionManager;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
@@ -38,55 +39,57 @@ public class WebProjectApplication {
 		SpringApplication.run(WebProjectApplication.class, args);
 	}
 
-	@Bean
-	public CommandLineRunner demo(UserRepository ur, InterestRepository ir) {
-		return (args) -> {
-			User u = new User();
-			u.setName("I'm the owner 2");
-			u.setType("admin");
+	@Bean public BCryptPasswordEncoder bCryptPasswordEncoder() { return new BCryptPasswordEncoder(); }
 
-
-			Event e = new Event();
-
+//	@Bean
+//	public CommandLineRunner demo(UserRepository ur, InterestRepository ir) {
+//		return (args) -> {
+//			User u = new User();
+//			u.setName("I'm the owner 2");
+//			u.setType("admin");
+//
+//
+//			Event e = new Event();
+//
+////			e.setOwner(u);
+//
+//			e.setTitle("hello Bank 2");
+//			e.setDate(new Date());
+//
+//			u.getEvents().add(e);
 //			e.setOwner(u);
-
-			e.setTitle("hello Bank 2");
-			e.setDate(new Date());
-
-			u.getEvents().add(e);
-			e.setOwner(u);
-
-
-
-			Optional<User> u1 = ur.findById((long) 1);
-
-			Participation p = new Participation();
-			p.setParticipent(u1.get());
-			p.setEvent(e);
-//			u.getParticipations().add(p);
-//			e.getParticipents().add(p);
-
-			ur.save(u);
-
-
-
-			Interest i = new Interest();
-			i.setInterested(u1.get());
-			i.setEvent(e);
-			ir.save(i);
-//			u.getIntrests().add(i);
-//			e.getIntrested().add(i);
-
-
-
-
-//			Iterable<User> users = ur.findAll();
-//			User utemp = users.iterator().next();
-//			System.out.println(utemp.getName());
-
-//			List<Interest> events = utemp.getIntrests();
-
-//			System.out.println(events.size());
-		};
-	}
+//
+//
+//
+//			Optional<User> u1 = ur.findById((long) 1);
+//
+//			Participation p = new Participation();
+//			p.setParticipent(u1.get());
+//			p.setEvent(e);
+////			u.getParticipations().add(p);
+////			e.getParticipents().add(p);
+//
+//			ur.save(u);
+//
+//
+//
+//			Interest i = new Interest();
+//			i.setInterested(u1.get());
+//			i.setEvent(e);
+//			ir.save(i);
+////			u.getIntrests().add(i);
+////			e.getIntrested().add(i);
+//
+//
+//
+//
+////			Iterable<User> users = ur.findAll();
+////			User utemp = users.iterator().next();
+////			System.out.println(utemp.getName());
+//
+////			List<Interest> events = utemp.getIntrests();
+//
+////			System.out.println(events.size());
+//		};
+//	}
 }
