@@ -7,6 +7,7 @@ import java.util.Date;
 import javax.persistence.*;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
@@ -15,12 +16,17 @@ public class Event {
     private long id;
     private String title;
     private String description;
+
+
+    private String detail;
+    @JsonFormat(pattern = "dd-MM-yyyy")
     private Date date;
     private List<Participation> participents = new ArrayList<Participation>();
     private List<Interest> intrested = new ArrayList<Interest>();
     private User owner;
 
-    public Event(){}
+    public Event() {
+    }
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -28,9 +34,19 @@ public class Event {
         return id;
     }
 
+
     public void setId(long id) {
         this.id = id;
     }
+
+    public String getDetail() {
+        return detail;
+    }
+
+    public void setDetail(String detail) {
+        this.detail = detail;
+    }
+
 
     public String getTitle() {
         return title;
@@ -57,7 +73,7 @@ public class Event {
     }
 
 
-    @OneToMany(mappedBy="event",cascade=CascadeType.ALL)
+    @OneToMany(mappedBy = "event", cascade = CascadeType.ALL)
     @JsonIgnore
     public List<Participation> getParticipents() {
         return participents;
@@ -67,7 +83,7 @@ public class Event {
         this.participents = participents;
     }
 
-    @OneToMany(mappedBy="event",cascade=CascadeType.ALL)
+    @OneToMany(mappedBy = "event", cascade = CascadeType.ALL)
     @JsonIgnore
     public List<Interest> getIntrested() {
         return intrested;
@@ -87,7 +103,6 @@ public class Event {
     }
 
 
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -98,6 +113,7 @@ public class Event {
         if (id != other.getId()) return false;
         return true;
     }
+
     @Override
     public int hashCode() {
         int result = description.hashCode();
