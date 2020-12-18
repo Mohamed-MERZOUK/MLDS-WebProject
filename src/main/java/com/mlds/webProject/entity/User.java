@@ -8,6 +8,7 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -20,7 +21,42 @@ public class User {
     private String username;
     private String password;
     private String type;
+    private String email;
+    private String phone;
+    private Date birthday;
+    private String sexe;
 
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public Date getBirthday() {
+        return birthday;
+    }
+
+    public void setBirthday(Date birthday) {
+        this.birthday = birthday;
+    }
+
+    public String getSexe() {
+        return sexe;
+    }
+
+    public void setSexe(String sexe) {
+        this.sexe = sexe;
+    }
 
     @OneToMany(mappedBy="owner", cascade=CascadeType.ALL ,fetch = FetchType.EAGER)
     @JsonIgnore
