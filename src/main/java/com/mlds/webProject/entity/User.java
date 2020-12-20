@@ -28,6 +28,17 @@ public class User {
     private Date birthday;
     private String sexe;
 
+
+    public User(User user){
+        this.username=user.getUsername();
+        this.email=user.getEmail();
+        this.phone=user.getPhone();
+        this.id=user.getId();
+        this.sexe=user.getSexe();
+        this.birthday=user.getBirthday();
+        this.type = user.getType();
+        this.password=null;
+    }
     public String getEmail() {
         return email;
     }
@@ -137,6 +148,29 @@ public class User {
         this.password = password;
     }
 
+    public void setUser(User user){
+        if(user.getUsername()!=null){
+            this.username=user.getUsername();
+        }
+
+        if(user.getEmail()!=null){
+            this.email=user.getEmail();
+        }
+
+        if(user.getSexe()!=null){
+            this.sexe=user.getSexe();
+        }
+        if(user.getBirthday()!=null){
+            this.birthday=user.getBirthday();
+        }
+        if(user.getPhone()!=null){
+            this.phone=user.getPhone();
+        }
+        if(user.getType()!=null){
+            this.type=user.getType();
+        }
+
+    }
 
     @Override
     public boolean equals(Object o) {
@@ -148,6 +182,7 @@ public class User {
         if (id != other.getId()) return false;
         return true;
     }
+
     @Override
     public int hashCode() {
         int result = username.hashCode();
