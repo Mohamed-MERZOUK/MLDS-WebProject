@@ -16,8 +16,6 @@ public class Event {
     private long id;
     private String title;
     private String description;
-
-
     private String detail;
     @JsonFormat(pattern = "dd-MM-yyyy")
     private Date date;
@@ -46,7 +44,6 @@ public class Event {
     public void setDetail(String detail) {
         this.detail = detail;
     }
-
 
     public String getTitle() {
         return title;

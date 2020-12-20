@@ -22,10 +22,10 @@ public class UserControler {
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
     }
 
-    //@GetMapping
-    //public Iterable<User> getUsers(){
-    //    return userRepository.findAll();
-    //}
+    @GetMapping
+    public Iterable<User> getUsers(){
+        return userRepository.findAll();
+    }
 
     @Transactional(propagation = Propagation.REQUIRES_NEW, rollbackFor = Exception.class)
     @PostMapping("/sign-up")

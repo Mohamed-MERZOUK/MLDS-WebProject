@@ -1,6 +1,7 @@
 package com.mlds.webProject.entity;
 
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
@@ -23,6 +24,7 @@ public class User {
     private String type;
     private String email;
     private String phone;
+    @JsonFormat(pattern = "dd-MM-yyyy")
     private Date birthday;
     private String sexe;
 
