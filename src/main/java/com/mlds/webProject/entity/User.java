@@ -29,16 +29,17 @@ public class User {
     private String sexe;
 
 
-    public User(User user){
-        this.username=user.getUsername();
-        this.email=user.getEmail();
-        this.phone=user.getPhone();
-        this.id=user.getId();
-        this.sexe=user.getSexe();
-        this.birthday=user.getBirthday();
+    public User(User user) {
+        this.username = user.getUsername();
+        this.email = user.getEmail();
+        this.phone = user.getPhone();
+        this.id = user.getId();
+        this.sexe = user.getSexe();
+        this.birthday = user.getBirthday();
         this.type = user.getType();
-        this.password=null;
+        this.password = null;
     }
+
     public String getEmail() {
         return email;
     }
@@ -71,20 +72,21 @@ public class User {
         this.sexe = sexe;
     }
 
-    @OneToMany(mappedBy="owner", cascade=CascadeType.ALL ,fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JsonIgnore
-    private List<Event> events =  new ArrayList<Event>();
+    private List<Event> events = new ArrayList<Event>();
 
-    @OneToMany(mappedBy="interested",cascade=CascadeType.ALL)
+    @OneToMany(mappedBy = "interested", cascade = CascadeType.ALL)
     @JsonIgnore
-    private List<Interest> intrests =  new ArrayList<Interest>();
-    
-    @OneToMany(mappedBy="participent",cascade=CascadeType.ALL)
+    private List<Interest> intrests = new ArrayList<Interest>();
+
+    @OneToMany(mappedBy = "participent", cascade = CascadeType.ALL)
     @JsonIgnore
-    private List<Participation> participations =  new ArrayList<Participation>();
+    private List<Participation> participations = new ArrayList<Participation>();
 
 
-    public User(){ }
+    public User() {
+    }
 
     public List<Interest> getIntrests() {
         return intrests;
@@ -119,11 +121,6 @@ public class User {
     }
 
 
-
-
-
-
-
     public long getId() {
         return id;
     }
@@ -140,6 +137,8 @@ public class User {
         this.username = name;
     }
 
+
+    @JsonIgnore
     public String getPassword() {
         return password;
     }

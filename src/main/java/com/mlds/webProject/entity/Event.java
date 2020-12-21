@@ -91,6 +91,7 @@ public class Event {
     }
 
     @ManyToOne
+    @JsonIgnore
     public User getOwner() {
         return owner;
     }

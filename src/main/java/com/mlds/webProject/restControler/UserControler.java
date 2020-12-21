@@ -1,5 +1,8 @@
 package com.mlds.webProject.restControler;
 
+import com.mlds.webProject.entity.Event;
+import com.mlds.webProject.entity.Interest;
+import com.mlds.webProject.entity.Participation;
 import com.mlds.webProject.entity.User;
 import com.mlds.webProject.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -80,6 +83,53 @@ public class UserControler {
         temp.setUser(usertmp);
         temp.setPassword(null);
         return temp;
+    }
+
+
+    @Transactional(propagation = Propagation.REQUIRES_NEW, rollbackFor = Exception.class)
+    @GetMapping("/events")
+    public Iterable<Event> getEvents(){
+
+        //get the username
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String currentPrincipalName = authentication.getName();
+
+        //get the actual user
+        User usertmp= userRepository.findByUsername(currentPrincipalName);
+
+        //return the event for the user
+        return usertmp.getEvents();
+    }
+
+    @Transactional(propagation = Propagation.REQUIRES_NEW, rollbackFor = Exception.class)
+    @GetMapping("/participations")
+    public Iterable<Participation> getParticipations(){
+
+        //get the username
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String currentPrincipalName = authentication.getName();
+
+        //get the actual user
+        User usertmp= userRepository.findByUsername(currentPrincipalName);
+
+        //return the event for the user
+        return usertmp.getParticipations();
+    }
+
+
+    @Transactional(propagation = Propagation.REQUIRES_NEW, rollbackFor = Exception.class)
+    @GetMapping("/intrests")
+    public Iterable<Interest> getIntrests(){
+
+        //get the username
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String currentPrincipalName = authentication.getName();
+
+        //get the actual user
+        User usertmp= userRepository.findByUsername(currentPrincipalName);
+
+        //return the event for the user
+        return usertmp.getIntrests();
     }
 
 
