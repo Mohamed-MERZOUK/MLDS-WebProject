@@ -1,6 +1,8 @@
 package com.mlds.webProject.restControler;
 
 import com.mlds.webProject.entity.Event;
+import com.mlds.webProject.entity.Interest;
+import com.mlds.webProject.entity.Participation;
 import com.mlds.webProject.entity.User;
 import com.mlds.webProject.repository.EventRepository;
 import com.mlds.webProject.repository.UserRepository;
@@ -14,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Optional;
 
 @RestController
+@RequestMapping("/events")
 public class EventControler {
 
     EventRepository eventRepository;
@@ -26,12 +29,12 @@ public class EventControler {
         this.userRepository = userRepository;
     }
 
-    @GetMapping("/events")
+    @GetMapping
     public Iterable<Event> getEvents(){
         return eventRepository.findAll();
     }
 
-    @PostMapping("/events")
+    @PostMapping
     @Transactional(propagation = Propagation.REQUIRES_NEW, rollbackFor = Exception.class)
     public void addEvent(@RequestBody Event event) throws Exception {
 
@@ -47,10 +50,10 @@ public class EventControler {
         eventRepository.save(event);
     }
 
-    @RequestMapping(value = "/events/{id}", method = RequestMethod.PUT)
-    public Event editEvent(@RequestBody Event event, @PathVariable("id") Long id) throws Exception {
+    @RequestMapping(method = RequestMethod.PUT)
+    public Event editEvent(@RequestBody Event event) throws Exception {
         //find the old event by id
-        Optional<Event> e = eventRepository.findById((Long)id);
+        Optional<Event> e = eventRepository.findById((Long)event.getId());
         Event ev = e.get();
 
         //modify the event
@@ -63,5 +66,28 @@ public class EventControler {
         return ev;
     }
 
+
+    @RequestMapping(value = "/participents/{id}", method = RequestMethod.GET)
+    public int getNbOfParticipents(@PathVariable("id") Long id) throws Exception {
+
+        //get the event
+        Optional<Event> e = eventRepository.findById((Long)id);
+        Event ev = e.get();
+
+        //return the participents in the event
+        return ev.getParticipents().size();
+    }
+
+
+    @RequestMapping(value = "/interested/{id}", method = RequestMethod.GET)
+    public int getNbOfIntrested(@PathVariable("id") Long id) throws Exception {
+
+        //get the event
+        Optional<Event> e = eventRepository.findById((Long)id);
+        Event ev = e.get();
+
+        //return the interested on the event
+        return ev.getIntrested().size();
+    }
 
 }

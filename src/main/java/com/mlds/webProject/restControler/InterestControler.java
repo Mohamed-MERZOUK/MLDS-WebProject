@@ -50,6 +50,12 @@ public class InterestControler {
         Event intrestEvent = e.get();
 
 
+        Interest interest = interestRepository.findByEventAndInterested(intrestEvent,user);
+
+        if(interest!=null){
+            return event;
+        }
+
         //create a new Interest
         Interest intrest = new Interest();
 
