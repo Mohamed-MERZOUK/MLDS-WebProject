@@ -1,6 +1,7 @@
 package com.mlds.webProject.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import java.util.ArrayList;
@@ -28,6 +29,7 @@ public class Interest {
     }
 
     @ManyToOne
+    @JsonIgnore
     public User getInterested() {
         return interested;
     }

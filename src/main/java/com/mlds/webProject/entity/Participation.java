@@ -1,6 +1,7 @@
 package com.mlds.webProject.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import java.util.Date;
 import javax.persistence.*;
@@ -25,6 +26,7 @@ public class Participation {
     }
 
     @ManyToOne
+    @JsonIgnore
     public User getParticipent() {
         return participent;
     }
