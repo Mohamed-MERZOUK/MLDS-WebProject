@@ -45,13 +45,23 @@ public class ParticipationControler {
         User user = userRepository.findByUsername(currentPrincipalName);
 
 
+
         Optional<Event> e = eventRepository.findById(event.getId());
 
         Event participationEvent = e.get();
 
+        //get the participationObject
+        Participation participation = participationRepository.findByEventAndParticipent(participationEvent,user);
+
+
+        if(participation!=null){
+             return event;
+        }
+
+
 
         //create a new participation
-        Participation participation = new Participation();
+        participation = new Participation();
 
 
         participation.setParticipent(user);

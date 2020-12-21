@@ -27,6 +27,7 @@ public class User {
     @JsonFormat(pattern = "dd-MM-yyyy")
     private Date birthday;
     private String sexe;
+    private String photo;
 
 
     public User(User user) {
@@ -37,9 +38,27 @@ public class User {
         this.sexe = user.getSexe();
         this.birthday = user.getBirthday();
         this.type = user.getType();
+        this.photo = user.getPhoto();
         this.password = null;
     }
 
+
+    @JsonIgnore
+    public String getPhoto() {
+        return photo;
+    }
+
+    public void setPhoto(String photo) {
+        this.photo = photo;
+    }
+
+
+    @Transient
+    public String getPhotosImagePath() {
+        if (photo == null ) return null;
+
+        return "/user-photos/" + id + "/" + photo;
+    }
     public String getEmail() {
         return email;
     }
@@ -138,7 +157,7 @@ public class User {
     }
 
 
-    @JsonIgnore
+
     public String getPassword() {
         return password;
     }
