@@ -87,8 +87,6 @@ public class ParticipationControler {
         //get the participationObject
         Participation participation = participationRepository.findByEventAndParticipent(participationEvent,user);
 
-        //save the participationId
-        long participationId = participation.getId();
 
         //remove the participation entity from the database
         participation.dismissEvent();
@@ -97,6 +95,6 @@ public class ParticipationControler {
 
 
         // return the participationId
-        return participationId;
+        return e.get().getId();
     }
 }

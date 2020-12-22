@@ -84,9 +84,6 @@ public class InterestControler {
         //get the interestObject
         Interest interest = interestRepository.findByEventAndInterested(intrestEvent,user);
 
-        //save the interestId
-        long interestId = interest.getId();
-
 
         //remove the intrest entity from the database
         interest.dismissEvent();
@@ -94,28 +91,8 @@ public class InterestControler {
         interestRepository.delete(interest);
 
         // return the interestId
-        return interestId;
+        return intrestEvent.getId();
     }
 
-//    @GetMapping
-//    @RequestMapping(value = "/event/{eventId}", method = RequestMethod.GET)
-//    public Boolean userInterestedInEvent(@PathVariable("eventId") Long eventId) throws Exception {
-//
-//        //get the actual user
-//        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-//        String currentPrincipalName = authentication.getName();
-//        User user = userRepository.findByUsername(currentPrincipalName);
-//
-//        //get the event
-//        Optional<Event> e = eventRepository.findById(eventId);
-//        Event interestEvent = e.get();
-//
-//        //get the interestObject
-//        Interest interest = interestRepository.findByEventAndInterested(interestEvent,user);
-//
-//        //Return true if exists
-//        if(interest!=null) return Boolean.TRUE;
-//        else return  Boolean.FALSE;
-//    }
 
 }
