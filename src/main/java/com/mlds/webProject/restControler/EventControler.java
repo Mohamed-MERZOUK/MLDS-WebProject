@@ -92,4 +92,11 @@ public class EventControler {
         return ev.getIntrested().size();
     }
 
+    @DeleteMapping
+    @Transactional(propagation = Propagation.REQUIRES_NEW, rollbackFor = Exception.class)
+    public long removeInterest(@RequestBody Event event) throws Exception {
+        eventRepository.deleteById(event.getId());
+        return event.getId();
+    }
+
 }
