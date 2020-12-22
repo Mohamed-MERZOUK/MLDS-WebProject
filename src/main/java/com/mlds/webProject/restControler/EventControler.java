@@ -38,7 +38,7 @@ public class EventControler {
 
     @PostMapping
     @Transactional(propagation = Propagation.REQUIRES_NEW, rollbackFor = Exception.class)
-    public void addEvent(@RequestBody Event event) throws Exception {
+    public Event addEvent(@RequestBody Event event) throws Exception {
 
         //get the actual user
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -50,6 +50,7 @@ public class EventControler {
 
         //persist the event
         eventRepository.save(event);
+        return event;
     }
 
     @RequestMapping(method = RequestMethod.PUT)
