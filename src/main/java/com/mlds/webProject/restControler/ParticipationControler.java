@@ -91,30 +91,12 @@ public class ParticipationControler {
         long participationId = participation.getId();
 
         //remove the participation entity from the database
+        participation.dismissEvent();
+        participation.dismissParticipent();
         participationRepository.delete(participation);
+
 
         // return the participationId
         return participationId;
     }
-
-//    @GetMapping
-//    @RequestMapping(value = "/event/{eventId}", method = RequestMethod.GET)
-//    public Boolean userParticipateInEvent(@PathVariable("eventId") Long eventId) throws Exception {
-//
-//        //get the actual user
-//        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-//        String currentPrincipalName = authentication.getName();
-//        User user = userRepository.findByUsername(currentPrincipalName);
-//
-//        //get the event
-//        Optional<Event> e = eventRepository.findById(eventId);
-//        Event participationEvent = e.get();
-//
-//        //get the participationObject
-//        Participation participation = participationRepository.findByEventAndParticipent(participationEvent,user);
-//
-//        //Return true if exists
-//        if(participation!=null) return Boolean.TRUE;
-//        else return  Boolean.FALSE;
-//    }
 }

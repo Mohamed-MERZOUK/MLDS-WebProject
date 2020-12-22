@@ -190,6 +190,13 @@ public class User {
 
     }
 
+    public void dismissParticipation(Participation p){
+        this.getParticipations().remove(p);
+    }
+
+    public void dismissIntrest(Interest i){
+        this.getIntrests().remove(i);
+    }
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

@@ -43,4 +43,15 @@ public class Participation {
     public void setEvent(Event event) {
         this.event = event;
     }
+
+    public void dismissParticipent(){
+        this.participent.dismissParticipation(this);
+        this.participent=null;
+
+    }
+    public void dismissEvent(){
+        this.event.dismissParticipation(this);
+        this.event=null;
+
+    }
 }

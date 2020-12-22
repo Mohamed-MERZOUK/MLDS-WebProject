@@ -46,4 +46,14 @@ public class Interest {
     public void setEvent(Event event) {
         this.event = event;
     }
+    public void dismissParticipent(){
+       this.interested.dismissIntrest(this);
+        this.interested=null;
+
+    }
+    public void dismissEvent(){
+        this.event.dismissInterest(this);
+        this.event=null;
+
+    }
 }

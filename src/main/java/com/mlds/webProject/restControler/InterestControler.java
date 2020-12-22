@@ -87,7 +87,10 @@ public class InterestControler {
         //save the interestId
         long interestId = interest.getId();
 
+
         //remove the intrest entity from the database
+        interest.dismissEvent();
+        interest.dismissParticipent();
         interestRepository.delete(interest);
 
         // return the interestId

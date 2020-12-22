@@ -125,6 +125,13 @@ public class Event {
         return this.getIntrested().size();
     }
 
+    public void dismissParticipation(Participation p){
+        this.getParticipents().remove(p);
+    }
+
+    public void dismissInterest(Interest i){
+        this.getIntrested().remove(i);
+    }
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
