@@ -39,6 +39,7 @@ public class Event {
         this.id = id;
     }
 
+    @Lob
     public String getDetail() {
         return detail;
     }
@@ -55,6 +56,7 @@ public class Event {
         this.title = title;
     }
 
+    @Lob
     public String getDescription() {
         return description;
     }
