@@ -35,7 +35,6 @@ public class Event {
         return id;
     }
 
-
     public void setId(long id) {
         this.id = id;
     }
@@ -70,6 +69,12 @@ public class Event {
 
     public void setDate(Date date) {
         this.date = date;
+    }
+
+    @Transient
+    public String getOwnerName(){
+        if(owner==null) return null;
+        return owner.getUsername();
     }
 
 
