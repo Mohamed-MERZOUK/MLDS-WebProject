@@ -41,8 +41,6 @@ public class UserControler {
     @Transactional(propagation = Propagation.REQUIRES_NEW, rollbackFor = Exception.class)
     @PostMapping("/sign-up")
     public long signUp(@RequestBody User user) throws Exception {
-
-
         user.setPassword( bCryptPasswordEncoder.encode(user.getPassword()));
         userRepository.save(user);
         return userRepository.save(user).getId();
@@ -55,10 +53,9 @@ public class UserControler {
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String currentPrincipalName = authentication.getName();
-//        System.out.println(currentPrincipalName);
+
         User user= userRepository.findByUsername(currentPrincipalName);
         User temp = new User(user);
-
 
         return temp;
     }

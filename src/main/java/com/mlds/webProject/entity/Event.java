@@ -21,7 +21,10 @@ public class Event {
     private Date date;
     private List<Participation> participents = new ArrayList<Participation>();
     private List<Interest> intrested = new ArrayList<Interest>();
+    private int nbParticipents;
+    private int nbInterested;
     private User owner;
+
 
     public Event() {
     }
@@ -100,6 +103,22 @@ public class Event {
         this.owner = owner;
     }
 
+
+    public void setNbParticipents(int nbParticipents) {
+        this.nbParticipents = nbParticipents;
+    }
+
+    public void setNbInterested(int nbInterested) {
+        this.nbInterested = nbInterested;
+    }
+
+    public int getNbParticipents() {
+        return this.getParticipents().size();
+    }
+
+    public int getNbInterested() {
+        return this.getIntrested().size();
+    }
 
     @Override
     public boolean equals(Object o) {

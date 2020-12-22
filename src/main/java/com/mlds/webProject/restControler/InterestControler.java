@@ -44,11 +44,8 @@ public class InterestControler {
         //get the actual user
         User user = userRepository.findByUsername(currentPrincipalName);
 
-
         Optional<Event> e = eventRepository.findById(event.getId());
-
         Event intrestEvent = e.get();
-
 
         Interest interest = interestRepository.findByEventAndInterested(intrestEvent,user);
 
@@ -59,16 +56,12 @@ public class InterestControler {
         //create a new Interest
         Interest intrest = new Interest();
 
-
         intrest.setInterested(user);
         intrest.setEvent(intrestEvent);
         user.getIntrests().add(intrest);
         intrestEvent.getIntrested().add(intrest);
 
-
         return event;
-
-
     }
 
 
@@ -80,7 +73,6 @@ public class InterestControler {
         //get the username
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String currentPrincipalName = authentication.getName();
-
 
         //get the actual user
         User user = userRepository.findByUsername(currentPrincipalName);
@@ -98,12 +90,29 @@ public class InterestControler {
         //remove the intrest entity from the database
         interestRepository.delete(interest);
 
-
         // return the interestId
         return interestId;
-
-
     }
 
+//    @GetMapping
+//    @RequestMapping(value = "/event/{eventId}", method = RequestMethod.GET)
+//    public Boolean userInterestedInEvent(@PathVariable("eventId") Long eventId) throws Exception {
+//
+//        //get the actual user
+//        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+//        String currentPrincipalName = authentication.getName();
+//        User user = userRepository.findByUsername(currentPrincipalName);
+//
+//        //get the event
+//        Optional<Event> e = eventRepository.findById(eventId);
+//        Event interestEvent = e.get();
+//
+//        //get the interestObject
+//        Interest interest = interestRepository.findByEventAndInterested(interestEvent,user);
+//
+//        //Return true if exists
+//        if(interest!=null) return Boolean.TRUE;
+//        else return  Boolean.FALSE;
+//    }
 
 }
