@@ -24,9 +24,33 @@ public class Event {
     private int nbParticipents;
     private int nbInterested;
     private User owner;
+    private String photo;
 
 
     public Event() {
+    }
+
+
+    @JsonIgnore
+    public String getPhoto() {
+        return photo;
+    }
+
+    public void setPhoto(String photo) {
+        this.photo = photo;
+    }
+
+    @Transient
+    public String getPhotosImagePath() {
+        if (photo == null ) return null;
+        if (owner == null ) return null;
+        return "/user-photos/" + owner.getId() + "/"  + id +  "/" + photo;
+    }
+
+    @Transient
+    public String getOwnerPhotosPath() {
+        if (owner == null ) return null;
+        return owner.getPhotosImagePath();
     }
 
     @Id
