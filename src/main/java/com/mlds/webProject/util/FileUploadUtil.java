@@ -22,4 +22,20 @@ public class FileUploadUtil {
             throw new IOException("Could not save image file: " + fileName, ioe);
         }
     }
+
+    public static void deleteFile(String uploadDir, String fileName
+    ) throws IOException {
+        Path uploadPath = Paths.get(uploadDir);
+
+        if (!Files.exists(uploadPath)) {
+            throw new IOException("this '" + uploadDir + "' directory does not exist");
+
+        } else {
+            Path filePath = uploadPath.resolve(fileName);
+            Files.delete(filePath);
+
+
+        }
+
+    }
 }

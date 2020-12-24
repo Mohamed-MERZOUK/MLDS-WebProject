@@ -37,7 +37,7 @@ public class EventControler {
     }
 
     @GetMapping
-    public Iterable<Event> getEvents(){
+    public Iterable<Event> getEvents() {
         return eventRepository.findAll();
     }
 
@@ -48,7 +48,7 @@ public class EventControler {
         //get the actual user
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String currentPrincipalName = authentication.getName();
-        User user= userRepository.findByUsername(currentPrincipalName);
+        User user = userRepository.findByUsername(currentPrincipalName);
 
         ObjectMapper mapper = new ObjectMapper();
         Event event = mapper.readValue(model, Event.class);
@@ -69,11 +69,20 @@ public class EventControler {
 
         return event;
     }
+// update Event
+    @PutMapping
+    @Transactional(propagation = Propagation.REQUIRES_NEW, rollbackFor = Exception.class)
+    public Event editEvent(@RequestParam(value = "image", required = false) MultipartFile multipartFile, @RequestParam("event") String model) throws Exception {
 
-    @RequestMapping(method = RequestMethod.PUT)
-    public Event editEvent(@RequestBody Event event) throws Exception {
-        //find the old event by id
-        Optional<Event> e = eventRepository.findById((Long)event.getId());
+        //get the actual user
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String currentPrincipalName = authentication.getName();
+        User user = userRepository.findByUsername(currentPrincipalName);
+
+
+        ObjectMapper mapper = new ObjectMapper();
+        Event event = mapper.readValue(model, Event.class);
+        Optional<Event> e = eventRepository.findById((Long) event.getId());
         Event ev = e.get();
 
         //modify the event
@@ -82,16 +91,63 @@ public class EventControler {
         ev.setDescription(event.getDescription());
         ev.setDetail(event.getDetail());
 
+
+
+        //delete the file from the file system
+        if (event.getPhoto() == null) {
+            if (ev.getPhoto() == null)
+                System.out.println("this event do not have a photo");
+            else {
+                FileUploadUtil.deleteFile( "user-photos/" + user.getId() + "/" + ev.getId(),ev.getPhoto());
+                ev.setPhoto(null);
+            }
+
+
+
+
+        }
+//        ev.setOwner(user);
+
+
+        if (multipartFile != null) {
+
+            String fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
+            ev.setPhoto(fileName);
+            String uploadDir = "user-photos/" + user.getId() + "/" + ev.getId();
+            FileUploadUtil.saveFile(uploadDir, fileName, multipartFile);
+
+
+        }
+//        //persist the event
         eventRepository.save(ev);
+
+
         return ev;
     }
+
+
+//    @RequestMapping(method = RequestMethod.PUT)
+//    public Event editEvent(@RequestBody Event event) throws Exception {
+//        //find the old event by id
+//        Optional<Event> e = eventRepository.findById((Long)event.getId());
+//        Event ev = e.get();
+//
+//        //modify the event
+//        ev.setTitle(event.getTitle());
+//        ev.setDate(event.getDate());
+//        ev.setDescription(event.getDescription());
+//        ev.setDetail(event.getDetail());
+//
+//        eventRepository.save(ev);
+//        return ev;
+//    }
 
 
     @RequestMapping(value = "/participents/{id}", method = RequestMethod.GET)
     public int getNbOfParticipents(@PathVariable("id") Long id) throws Exception {
 
         //get the event
-        Optional<Event> e = eventRepository.findById((Long)id);
+        Optional<Event> e = eventRepository.findById((Long) id);
         Event ev = e.get();
 
         //return the participents in the event
@@ -103,7 +159,7 @@ public class EventControler {
     public int getNbOfIntrested(@PathVariable("id") Long id) throws Exception {
 
         //get the event
-        Optional<Event> e = eventRepository.findById((Long)id);
+        Optional<Event> e = eventRepository.findById((Long) id);
         Event ev = e.get();
 
         //return the interested on the event
@@ -128,7 +184,7 @@ public class EventControler {
         String currentPrincipalName = authentication.getName();
 
         //get the actual user
-        User user= userRepository.findByUsername(currentPrincipalName);
+        User user = userRepository.findByUsername(currentPrincipalName);
 
         user.setPhoto(fileName);
 
