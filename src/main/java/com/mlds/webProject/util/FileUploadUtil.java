@@ -7,8 +7,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 public class FileUploadUtil {
 
-    public static void saveFile(String uploadDir, String fileName,
-                                MultipartFile multipartFile) throws IOException {
+    public static void saveFile(String uploadDir, String fileName, MultipartFile multipartFile) throws IOException {
+
         Path uploadPath = Paths.get(uploadDir);
 
         if (!Files.exists(uploadPath)) {
@@ -23,8 +23,8 @@ public class FileUploadUtil {
         }
     }
 
-    public static void deleteFile(String uploadDir, String fileName
-    ) throws IOException {
+    public static void deleteFile(String uploadDir, String fileName) throws IOException {
+
         Path uploadPath = Paths.get(uploadDir);
 
         if (!Files.exists(uploadPath)) {
@@ -33,8 +33,6 @@ public class FileUploadUtil {
         } else {
             Path filePath = uploadPath.resolve(fileName);
             Files.delete(filePath);
-
-
         }
 
     }

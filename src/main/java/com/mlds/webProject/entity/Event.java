@@ -3,13 +3,10 @@ package com.mlds.webProject.entity;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Date;
-
 import javax.persistence.*;
-
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 
 @Entity
 public class Event {
@@ -21,36 +18,10 @@ public class Event {
     private Date date;
     private List<Participation> participents = new ArrayList<Participation>();
     private List<Interest> intrested = new ArrayList<Interest>();
-    private int nbParticipents;
-    private int nbInterested;
     private User owner;
     private String photo;
 
-
     public Event() {
-    }
-
-
-    @JsonIgnore
-    public String getPhoto() {
-        return photo;
-    }
-
-    public void setPhoto(String photo) {
-        this.photo = photo;
-    }
-
-    @Transient
-    public String getPhotosImagePath() {
-        if (photo == null ) return null;
-        if (owner == null ) return null;
-        return "/user-photos/" + owner.getId() + "/"  + id +  "/" + photo;
-    }
-
-    @Transient
-    public String getOwnerPhotosPath() {
-        if (owner == null ) return null;
-        return owner.getPhotosImagePath();
     }
 
     @Id
@@ -103,7 +74,6 @@ public class Event {
         return owner.getUsername();
     }
 
-
     @OneToMany(mappedBy = "event", cascade = CascadeType.ALL)
     @JsonIgnore
     public List<Participation> getParticipents() {
@@ -124,6 +94,17 @@ public class Event {
         this.intrested = intrested;
     }
 
+    //Return number of participents/interested without save it in event table
+    @Transient
+    public int getNbParticipents() {
+        return this.getParticipents().size();
+    }
+
+    @Transient
+    public int getNbInterested() {
+        return this.getIntrested().size();
+    }
+
     @ManyToOne
     @JsonIgnore
     public User getOwner() {
@@ -134,23 +115,31 @@ public class Event {
         this.owner = owner;
     }
 
-
-    public void setNbParticipents(int nbParticipents) {
-        this.nbParticipents = nbParticipents;
+    @JsonIgnore
+    public String getPhoto() {
+        return photo;
     }
 
-    public void setNbInterested(int nbInterested) {
-        this.nbInterested = nbInterested;
+    public void setPhoto(String photo) {
+        this.photo = photo;
     }
 
-    public int getNbParticipents() {
-        return this.getParticipents().size();
+    //Return the event image path
+    @Transient
+    public String getPhotosImagePath() {
+        if (photo == null ) return null;
+        if (owner == null ) return null;
+        return "/user-photos/" + owner.getId() + "/"  + id +  "/" + photo;
     }
 
-    public int getNbInterested() {
-        return this.getIntrested().size();
+    //Return the owner photo path
+    @Transient
+    public String getOwnerPhotosPath() {
+        if (owner == null ) return null;
+        return owner.getPhotosImagePath();
     }
 
+    //To delete participations and interests
     public void dismissParticipation(Participation p){
         this.getParticipents().remove(p);
     }
@@ -158,6 +147,8 @@ public class Event {
     public void dismissInterest(Interest i){
         this.getIntrested().remove(i);
     }
+
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

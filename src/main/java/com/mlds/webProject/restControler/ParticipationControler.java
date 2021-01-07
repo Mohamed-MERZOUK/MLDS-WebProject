@@ -16,6 +16,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
 import java.util.Optional;
 
 @RestController
@@ -26,6 +27,7 @@ public class ParticipationControler {
     UserRepository userRepository;
     EventRepository eventRepository;
 
+
     @Autowired
     public ParticipationControler(ParticipationRepository participationRepository, UserRepository userRepository, EventRepository eventRepository) {
         super();
@@ -34,15 +36,15 @@ public class ParticipationControler {
         this.eventRepository = eventRepository;
     }
 
+
     @PostMapping
     @Transactional(propagation = Propagation.REQUIRES_NEW, rollbackFor = Exception.class)
     public Event addParticipations(@RequestBody Event event) throws Exception {
 
-        //get the username
+        //get the actual user
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String currentPrincipalName = authentication.getName();
 
-        //get the actual user
         User user = userRepository.findByUsername(currentPrincipalName);
 
         Optional<Event> e = eventRepository.findById(event.getId());
@@ -51,33 +53,35 @@ public class ParticipationControler {
         //get the participationObject
         Participation participation = participationRepository.findByEventAndParticipent(participationEvent,user);
 
-        //don't add it if exists
+        //Don't add it if exists
         if(participation!=null){
              return event;
         }
 
-        //create a new participation
+        //Create a new participation
         participation = new Participation();
 
+        participation.setDate(new Date());
         participation.setParticipent(user);
         participation.setEvent(participationEvent);
         user.getParticipations().add(participation);
         participationEvent.getParticipents().add(participation);
 
+        //Persist the participation
+        participationRepository.save(participation);
+
         return event;
     }
-
 
 
     @DeleteMapping
     @Transactional(propagation = Propagation.REQUIRES_NEW, rollbackFor = Exception.class)
     public long removeParticipations(@RequestBody Event event) throws Exception {
 
-        //get the username
+        //get the actual user
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String currentPrincipalName = authentication.getName();
 
-        //get the actual user
         User user = userRepository.findByUsername(currentPrincipalName);
 
         //get the event
@@ -87,12 +91,10 @@ public class ParticipationControler {
         //get the participationObject
         Participation participation = participationRepository.findByEventAndParticipent(participationEvent,user);
 
-
         //remove the participation entity from the database
         participation.dismissEvent();
         participation.dismissParticipent();
         participationRepository.delete(participation);
-
 
         // return the participationId
         return e.get().getId();

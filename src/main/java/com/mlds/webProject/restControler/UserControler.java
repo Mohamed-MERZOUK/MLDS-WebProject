@@ -33,10 +33,12 @@ public class UserControler {
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
     }
 
+
     @GetMapping
     public Iterable<User> getUsers(){
         return userRepository.findAll();
     }
+
 
     @Transactional(propagation = Propagation.REQUIRES_NEW, rollbackFor = Exception.class)
     @PostMapping("/sign-up")
@@ -46,11 +48,12 @@ public class UserControler {
         return userRepository.save(user).getId();
     }
 
-
+    //Get profile of the connected user
     @Transactional(propagation = Propagation.REQUIRES_NEW, rollbackFor = Exception.class)
     @GetMapping("/profile")
     public User profile() throws Exception {
 
+        //get the actual user (connected)
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String currentPrincipalName = authentication.getName();
 
@@ -60,18 +63,16 @@ public class UserControler {
         return temp;
     }
 
+
     @Transactional(propagation = Propagation.REQUIRES_NEW, rollbackFor = Exception.class)
     @PostMapping("/profile")
     public User profile(@RequestBody User user) throws Exception {
 
-        //get the username
+        //get the actual user
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String currentPrincipalName = authentication.getName();
 
-        //get the actual user
         User usertmp= userRepository.findByUsername(currentPrincipalName);
-
-
 
         //only for the attribut password
         if(user.getPassword()!=null){
@@ -88,83 +89,73 @@ public class UserControler {
         return temp;
     }
 
-
+    //Get the events of the connected user
     @Transactional(propagation = Propagation.REQUIRES_NEW, rollbackFor = Exception.class)
     @GetMapping("/events")
     public Iterable<Event> getEvents(){
 
-        //get the username
+        //get the actual user
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String currentPrincipalName = authentication.getName();
 
-        //get the actual user
         User usertmp= userRepository.findByUsername(currentPrincipalName);
 
         //return the event for the user
         return usertmp.getEvents();
     }
 
+
+    //Get the participations of the connected user
     @Transactional(propagation = Propagation.REQUIRES_NEW, rollbackFor = Exception.class)
     @GetMapping("/participations")
     public Iterable<Participation> getParticipations(){
 
-        //get the username
+        //get the actual user
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String currentPrincipalName = authentication.getName();
 
-        //get the actual user
         User usertmp= userRepository.findByUsername(currentPrincipalName);
 
-        //return the event for the user
+        //return the participations for the user
         return usertmp.getParticipations();
     }
 
 
+    //Get the interests of the connected user
     @Transactional(propagation = Propagation.REQUIRES_NEW, rollbackFor = Exception.class)
     @GetMapping("/intrests")
     public Iterable<Interest> getIntrests(){
 
-        //get the username
+        //get the actual user
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String currentPrincipalName = authentication.getName();
 
-        //get the actual user
         User usertmp= userRepository.findByUsername(currentPrincipalName);
 
-        //return the event for the user
+        //return the interests for the user
         return usertmp.getIntrests();
     }
 
+
+    //Add profile picture for the connected user
     @Transactional(propagation = Propagation.REQUIRES_NEW, rollbackFor = Exception.class)
     @PostMapping("/profile/pic")
     public User addProfilPic(@RequestParam("image") MultipartFile multipartFile) throws IOException {
 
-        String fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
-
-
-        //get the username
+        //get the actual user
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String currentPrincipalName = authentication.getName();
 
-        //get the actual user
         User user= userRepository.findByUsername(currentPrincipalName);
 
-
+        //add the photo
+        String fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
         user.setPhoto(fileName);
-
-
-
         String uploadDir = "user-photos/" + user.getId();
-
         FileUploadUtil.saveFile(uploadDir, fileName, multipartFile);
 
         //return the event for the user
         return user;
     }
-
-
-
-
-
 
 }

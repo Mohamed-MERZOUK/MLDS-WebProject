@@ -15,10 +15,10 @@ import java.util.List;
 @Entity
 public class User {
 
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
+    @Column(unique = true, length = 20)
     private String username;
     private String password;
     private String type;
@@ -29,6 +29,20 @@ public class User {
     private String sexe;
     private String photo;
 
+    @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JsonIgnore
+    private List<Event> events = new ArrayList<Event>();
+
+    @OneToMany(mappedBy = "interested", cascade = CascadeType.ALL)
+    @JsonIgnore
+    private List<Interest> intrests = new ArrayList<Interest>();
+
+    @OneToMany(mappedBy = "participent", cascade = CascadeType.ALL)
+    @JsonIgnore
+    private List<Participation> participations = new ArrayList<Participation>();
+
+    public User() {
+    }
 
     public User(User user) {
         this.username = user.getUsername();
@@ -42,23 +56,30 @@ public class User {
         this.password = null;
     }
 
-
-    @JsonIgnore
-    public String getPhoto() {
-        return photo;
+    public long getId() {
+        return id;
     }
 
-    public void setPhoto(String photo) {
-        this.photo = photo;
+    public void setId(long id) {
+        this.id = id;
     }
 
-
-    @Transient
-    public String getPhotosImagePath() {
-        if (photo == null ) return null;
-
-        return "/user-photos/" + id + "/" + photo;
+    public String getUsername() {
+        return username;
     }
+
+    public void setUsername(String name) {
+        this.username = name;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
     public String getEmail() {
         return email;
     }
@@ -89,22 +110,6 @@ public class User {
 
     public void setSexe(String sexe) {
         this.sexe = sexe;
-    }
-
-    @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JsonIgnore
-    private List<Event> events = new ArrayList<Event>();
-
-    @OneToMany(mappedBy = "interested", cascade = CascadeType.ALL)
-    @JsonIgnore
-    private List<Interest> intrests = new ArrayList<Interest>();
-
-    @OneToMany(mappedBy = "participent", cascade = CascadeType.ALL)
-    @JsonIgnore
-    private List<Participation> participations = new ArrayList<Participation>();
-
-
-    public User() {
     }
 
     public List<Interest> getIntrests() {
@@ -139,33 +144,6 @@ public class User {
         this.type = type;
     }
 
-
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String name) {
-        this.username = name;
-    }
-
-
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
     public void setUser(User user){
         if(user.getUsername()!=null){
             this.username=user.getUsername();
@@ -187,9 +165,25 @@ public class User {
         if(user.getType()!=null){
             this.type=user.getType();
         }
-
     }
 
+    @JsonIgnore
+    public String getPhoto() {
+        return photo;
+    }
+
+    public void setPhoto(String photo) {
+        this.photo = photo;
+    }
+
+    //Return the complete photo path
+    @Transient
+    public String getPhotosImagePath() {
+        if (photo == null ) return null;
+        return "/user-photos/" + id + "/" + photo;
+    }
+
+    //Remove participations and interests
     public void dismissParticipation(Participation p){
         this.getParticipations().remove(p);
     }
@@ -197,6 +191,8 @@ public class User {
     public void dismissIntrest(Interest i){
         this.getIntrests().remove(i);
     }
+
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
