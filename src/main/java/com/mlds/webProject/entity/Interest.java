@@ -1,6 +1,7 @@
 package com.mlds.webProject.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
@@ -14,7 +15,9 @@ public class Interest {
     private long id;
     private User interested;
     private Event event;
+    @JsonFormat(pattern = "dd-MM-yyyy")
     private Date date;
+
 
     public Interest(){}
 
@@ -46,14 +49,22 @@ public class Interest {
     public void setEvent(Event event) {
         this.event = event;
     }
-    public void dismissParticipent(){
+
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
+    }
+
+    //To remove interest
+    public void dismissInterested(){
        this.interested.dismissIntrest(this);
         this.interested=null;
-
     }
     public void dismissEvent(){
         this.event.dismissInterest(this);
         this.event=null;
-
     }
 }

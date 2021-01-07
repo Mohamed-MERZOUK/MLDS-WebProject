@@ -1,6 +1,7 @@
 package com.mlds.webProject.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import java.util.Date;
@@ -11,7 +12,9 @@ public class Participation {
     private long id;
     private User participent;
     private Event event;
+    @JsonFormat(pattern = "dd-MM-yyyy")
     private Date date;
+
 
     public Participation(){}
 
@@ -44,6 +47,15 @@ public class Participation {
         this.event = event;
     }
 
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
+    }
+
+    //To remove participation
     public void dismissParticipent(){
         this.participent.dismissParticipation(this);
         this.participent=null;
@@ -52,6 +64,5 @@ public class Participation {
     public void dismissEvent(){
         this.event.dismissParticipation(this);
         this.event=null;
-
     }
 }
